@@ -4,30 +4,11 @@ import csv
 import glob
 import sys
 
-
-def select_item(welcome_text, items):
-    print(welcome_text)
-    for i, item in enumerate(items):
-        print('{}. {}'.format(i+1, item))
-    try:
-        selected = input('Please select option by typing number (1-{}): '.format(len(items)))
-        result = items[int(selected)-1]
-        return result
-    except KeyboardInterrupt:
-        print('User requested to exit')
-        exit()
-    except ValueError:
-        print('Error! Please enter only one number')
-        exit()
-    except IndexError:
-        print('Error! Please enter one number between 1-{}'.format(len(items)))
-        exit()
-
-
-output_directory = "generated"
-available_audio = glob.glob('language/audio_*.csv')
-input_file = select_item('Available localized audio instructions:', available_audio)
-language = input_file.split('_')[-1].split('.')[0]
+language = input("Write language according ISO-639-1 (ca, de, en, es): ")
+input_file = "audio_" + language + ".csv"
+output_directory = "generated_" + language
+# text to speech engine (gtts, espeak or macos)
+engine = "gtts"
 
 tts_engines = ['gtts']
 if sys.platform == 'darwin':
